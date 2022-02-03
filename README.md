@@ -2,6 +2,7 @@
 
 test1 は、グループ設定を変更前に実行し(2行表示)、test2 はグループ設定を変更後に実行する(2行表示)。
 
+| 　 | 　 | 
 | ---- | ----- | 
 | allowExternalMembers | allowGoogleCommunication | 
 | false (s) | false (s) | 
