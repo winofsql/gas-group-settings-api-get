@@ -78,7 +78,6 @@ function myFunction() {
     range = sheet.getRange(row, 2);
     val = range.getValue().toString();
     Logger.log( val );
-    //val = "language";
     groupSettings = AdminGroupsSettings.Groups.get( val + '@ドメイン');
 
     // Logger.log( groupSettings["enableCollaborativeInbox"] );
@@ -234,13 +233,10 @@ function myPatch() {
     range = sheet.getRange(row, 2);
     val = range.getValue().toString();
     Logger.log( val );
-    //val = "language";
     targetGroup = val + '@ドメイン';
 
-    // Logger.log( groupSettings["enableCollaborativeInbox"] );
-
-    val = sheet.getRange(row, 4).getValue().toString();
     // 【共同トレイ】
+    val = sheet.getRange(row, 4).getValue().toString();
     if ( val == "✖" ) {
       targetSetting.enableCollaborativeInbox = "false";
     }
@@ -280,7 +276,6 @@ function myPatch() {
     // ALL_OWNERS_CAN_POST ( オーナー )
     // ALL_IN_DOMAIN_CAN_POST ( 組織 )
     // ANYONE_CAN_POST ( WEB )
-    // Logger.log( groupSettings["whoCanPostMessage"] );
     if ( val == "不可" ) {
       targetSetting.whoCanPostMessage = "NONE_CAN_POST";
     }
@@ -311,7 +306,6 @@ function myPatch() {
     // ALL_MEMBERS_CAN_VIEW ( メンバー )
     // ALL_MANAGERS_CAN_VIEW ( マネージャ )
     // ALL_OWNERS_CAN_VIEW ( オーナー )
-    //Logger.log( groupSettings["whoCanViewMembership"] );
     if ( val == "組織" ) {
       targetSetting.whoCanViewMembership = "ALL_IN_DOMAIN_CAN_VIEW";
       
@@ -333,7 +327,6 @@ function myPatch() {
     val = sheet.getRange(row, 22).getValue().toString();
     // DEFAULT_SELF ( 投稿者 )
     // GROUP ( グループ )
-    // Logger.log( groupSettings["defaultSender"] );
     if ( val == "投稿者" ) {
       targetSetting.defaultSender = "DEFAULT_SELF";
       
