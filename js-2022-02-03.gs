@@ -194,3 +194,165 @@ function myFunction() {
 
   }  
 }
+
+function myPatch() {
+
+  // 現在利用中のシート
+  var sheet = SpreadsheetApp.getActiveSheet();
+  var range;
+  var val;
+  var column;
+  var row;
+  var key_value;
+
+  var groupSettings = {};
+  var setting;
+  var targetSetting;
+  var targetGroup;
+
+  setting = {
+    "enableCollaborativeInbox" : "false",
+    "whoCanViewGroup" : "ALL_MEMBERS_CAN_VIEW",
+    "whoCanPostMessage" : "ANYONE_CAN_POST",
+    "whoCanViewMembership" : "ALL_MEMBERS_CAN_VIEW",
+    "defaultSender" : "DEFAULT_SELF"
+  }
+    
+  for( row = 1; row < 100; row++ ) {
+
+    // グループ表示名の取得
+    range = sheet.getRange(row, 1);
+    val = range.getValue().toString();
+    if ( val == "" ) {
+      // 読み飛ばし
+      continue;
+    }
+
+    targetSetting = setting;
+
+    // 対象グループアドレスより設定一覧を取得
+    range = sheet.getRange(row, 2);
+    val = range.getValue().toString();
+    Logger.log( val );
+    //val = "language";
+    targetGroup = val + '@ドメイン';
+
+    // Logger.log( groupSettings["enableCollaborativeInbox"] );
+
+    val = sheet.getRange(row, 4).getValue().toString();
+    // 【共同トレイ】
+    if ( val == "✖" ) {
+      targetSetting.enableCollaborativeInbox = "false";
+    }
+    else {
+      targetSetting.enableCollaborativeInbox = "true";
+    }
+
+
+    // 【会話閲覧】
+    val = sheet.getRange(row, 9).getValue().toString();
+    // ANYONE_CAN_VIEW ( WEB )
+    // ALL_IN_DOMAIN_CAN_VIEW ( 組織 )
+    // ALL_MEMBERS_CAN_VIEW ( メンバー )
+    // ALL_MANAGERS_CAN_VIEW ( マネージャ )
+    // ALL_OWNERS_CAN_VIEW ( オーナー )    
+    if ( val == "WEB" ) {
+      targetSetting.whoCanViewGroup = "ANYONE_CAN_VIEW";
+    }
+    if ( val == "組織" ) {
+      targetSetting.whoCanViewGroup = "ALL_IN_DOMAIN_CAN_VIEW";
+    }
+    if ( val == "メンバー" ) {
+      targetSetting.whoCanViewGroup = "ALL_MEMBERS_CAN_VIEW";
+    }
+    if ( val == "マネージャ" ) {
+      targetSetting.whoCanViewGroup = "ALL_MANAGERS_CAN_VIEW";
+    }
+    if ( val == "オーナー" ) {
+      targetSetting.whoCanViewGroup = "ALL_OWNERS_CAN_VIEW";
+    }
+
+    // 【投稿】
+    val = sheet.getRange(row, 10).getValue().toString();
+    // NONE_CAN_POST ( 不可 )
+    // ALL_MANAGERS_CAN_POST ( マネージャ )
+    // ALL_MEMBERS_CAN_POST ( メンバー )
+    // ALL_OWNERS_CAN_POST ( オーナー )
+    // ALL_IN_DOMAIN_CAN_POST ( 組織 )
+    // ANYONE_CAN_POST ( WEB )
+    // Logger.log( groupSettings["whoCanPostMessage"] );
+    if ( val == "不可" ) {
+      targetSetting.whoCanPostMessage = "NONE_CAN_POST";
+    }
+    if ( val == "マネージャ" ) {
+      targetSetting.whoCanPostMessage = "ALL_MANAGERS_CAN_POST";
+      
+    }
+    if ( val == "メンバー" ) {
+      targetSetting.whoCanPostMessage = "ALL_MEMBERS_CAN_POST";
+      
+    }
+    if ( val == "オーナー" ) {
+      targetSetting.whoCanPostMessage = "ALL_OWNERS_CAN_POST";
+      
+    }
+    if ( val == "組織" ) {
+      targetSetting.whoCanPostMessage = "ALL_IN_DOMAIN_CAN_POST";
+      
+    }
+    if ( val == "WEB" ) {
+      targetSetting.whoCanPostMessage = "ANYONE_CAN_POST";
+      
+    }
+
+    // 【メンバ一覧】
+    val = sheet.getRange(row, 11).getValue().toString();
+    // ALL_IN_DOMAIN_CAN_VIEW ( 組織 )
+    // ALL_MEMBERS_CAN_VIEW ( メンバー )
+    // ALL_MANAGERS_CAN_VIEW ( マネージャ )
+    // ALL_OWNERS_CAN_VIEW ( オーナー )
+    //Logger.log( groupSettings["whoCanViewMembership"] );
+    if ( val == "組織" ) {
+      targetSetting.whoCanViewMembership = "ALL_IN_DOMAIN_CAN_VIEW";
+      
+    }
+    if ( val == "メンバー" ) {
+      targetSetting.whoCanViewMembership = "ALL_MEMBERS_CAN_VIEW";
+      
+    }
+    if ( val == "マネージャ" ) {
+      targetSetting.whoCanViewMembership = "ALL_MANAGERS_CAN_VIEW";
+      
+    }
+    if ( val == "オーナー" ) {
+      targetSetting.whoCanViewMembership = "ALL_OWNERS_CAN_VIEW";
+      
+    }
+
+    // 【差出人欄アドレス】
+    val = sheet.getRange(row, 22).getValue().toString();
+    // DEFAULT_SELF ( 投稿者 )
+    // GROUP ( グループ )
+    // Logger.log( groupSettings["defaultSender"] );
+    if ( val == "投稿者" ) {
+      targetSetting.defaultSender = "DEFAULT_SELF";
+      
+    }
+    if ( val == "グループ" ) {
+      targetSetting.defaultSender = "GROUP";
+      
+    }
+
+    Logger.log( targetSetting );
+
+    try {
+      AdminGroupsSettings.Groups.patch(targetSetting, targetGroup);
+    }
+    catch(error) {
+      Logger.log('name：' + error.name);
+      Logger.log('message：' + error.message);
+      
+    }    
+
+  }  
+}
