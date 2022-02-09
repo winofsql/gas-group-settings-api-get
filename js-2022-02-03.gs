@@ -349,3 +349,68 @@ function myPatch() {
 
   }  
 }
+
+function patternSet() {
+
+  // 現在利用中のシート
+  var sheet = SpreadsheetApp.getActiveSheet();
+  var range;
+  var val;
+  var column;
+  var row;
+  var key_value;
+
+  var groupSettings;
+  
+  for( row = 1; row < 100; row++ ) {
+
+    // グループ表示名の取得
+    range = sheet.getRange(row, 3);
+    val = range.getValue().toString();
+    if ( val == "" ) {
+      // 読み飛ばし
+      continue;
+    }
+
+    if ( val == "あ" ) {
+      range = sheet.getRange(row, 4);
+      range.setValue( "〇" );
+      range = sheet.getRange(row, 5);
+      range.setValue( "〇" );
+      range = sheet.getRange(row, 9);
+      range.setValue( "メンバー" );
+      range = sheet.getRange(row, 10);
+      range.setValue( "WEB" );
+      range = sheet.getRange(row, 11);
+      range.setValue( "メンバー" );
+      range = sheet.getRange(row, 13);
+      range.setValue( "メンバー" );
+      range = sheet.getRange(row, 18);
+      range.setValue( "WEB" );
+      range = sheet.getRange(row, 22);
+      range.setValue( "グループ" );
+
+    }
+    if ( val == "い" ) {
+      range = sheet.getRange(row, 4);
+      range.setValue( "✖" );
+      range = sheet.getRange(row, 5);
+      range.setValue( "✖" );
+      range = sheet.getRange(row, 9);
+      range.setValue( "メンバー" );
+      range = sheet.getRange(row, 10);
+      range.setValue( "WEB" );
+      range = sheet.getRange(row, 11);
+      range.setValue( "メンバー" );
+      range = sheet.getRange(row, 13);
+      range.setValue( "メンバー" );
+      range = sheet.getRange(row, 18);
+      range.setValue( "WEB" );
+      range = sheet.getRange(row, 22);
+      range.setValue( "投稿者" );
+      
+
+    }
+  }  
+}
+
