@@ -12,3 +12,6 @@ test1 は、グループ設定を変更前に実行し(2行表示)、test2 は�
 <br>
 
 実行後、前回と内容が変わっていたら、比較リストから一行あけて ✖ を表示する。
+
+
+![image](https://user-images.githubusercontent.com/1501327/153144572-9849a665-b596-4077-9260-d5ff17e7d9a1.png)
